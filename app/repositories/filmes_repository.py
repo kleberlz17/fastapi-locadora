@@ -26,3 +26,13 @@ def get_by_genero_contendo(db: Session, genero: str):
 
 def get_by_estoque(db: Session, estoque: int):
     return db.query(Filmes).filter(Filmes.estoque == estoque).all() #retorna toda a lista
+
+def save(db: Session, filme: Filmes) -> Filmes:
+    db.add(filme)
+    db.commit()
+    db.refresh(filme)
+    return filme
+
+def delete(db: Session, filme: Filmes):
+    db.delete(filme)
+    db.commit()

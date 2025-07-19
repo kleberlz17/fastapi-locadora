@@ -27,3 +27,13 @@ def get_by_data_devolucao(db: Session, data: date):
 
 def get_by_quantidade(db: Session, quantidade: int):
     return db.query(Locacao).filter(Locacao.quantidade == quantidade).first() #optional
+
+def save(db: Session, locacao: Locacao):
+    db.add(locacao)
+    db.commit()
+    db.refresh(locacao)
+    return locacao
+
+def delete(db: Session, locacao: Locacao):
+    db.delete(locacao)
+    db.commit()
