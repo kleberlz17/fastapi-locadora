@@ -28,3 +28,15 @@ class ClienteUpdate(BaseModel):
         None,
         description="Endereço residencial do cliente"
     )
+
+class NovoEmail(BaseModel):
+    email: EmailStr = Field(..., description="Novo e-mail do cliente")
+
+
+class NovoEndereco(BaseModel):
+    endereco: constr(min_length=5, max_length=100) = Field(..., description="Novo endereço do cliente")
+
+
+class NovoTelefone(BaseModel):
+    telefone: constr(min_length=8, max_length=20) = Field(..., description="Novo telefone do cliente")
+

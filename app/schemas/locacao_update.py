@@ -37,3 +37,17 @@ class LocacaoUpdate(BaseModel):
         ge=1,
         description="Quantas unidades quer alugar"
     )
+
+class RenovarLocacao(BaseModel):
+    data_devolucao: date = Field(..., description="Nova data de devolução no formato AAAA-MM-DD")
+
+
+class AluguelRequest(BaseModel):
+    id: int = Field(..., ge=1, description="ID do cliente")
+    id_filme: int = Field(..., ge=1, description="ID do filme")
+    quantidade: int = Field(..., ge=1, description="Quantidade de unidades para alugar")
+    data_devolucao: date = Field(..., description="Data prevista para devolução no formato AAAA-MM-DD")
+
+
+class LocacaoOnlyId(BaseModel):
+    id: int = Field(..., ge=1, description="ID da locação")

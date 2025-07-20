@@ -29,3 +29,16 @@ class FilmeUpdate(BaseModel):
         ge=0,
         description="Estoque do filme em número"
     )
+
+
+class NovoEstoque(BaseModel):
+    estoque: int = Field(..., ge=0, description="Novo valor do estoque")
+
+
+class NovaDataLancamento(BaseModel):
+    data_lancamento: date = Field(..., description="Nova data de lançamento")
+
+
+class NovoNomeFilme(BaseModel):
+    nome: str = Field(..., min_length=1, description="Novo nome do filme")
+
