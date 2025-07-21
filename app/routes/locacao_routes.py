@@ -17,7 +17,7 @@ def salvar_locacao(locacao_create: LocacaoCreate, db: Session = Depends(get_db))
     return {"id": locacao.id_locacao}
 
 @router.get("/{id}/locacoes", response_model=List[LocacaoResponse])
-def buscar_por_cliente(id: int, db: Session = Depends(get_db())):
+def buscar_por_cliente(id: int, db: Session = Depends(get_db)):
     service = LocacaoService(db)
     return service.buscar_por_cliente_id(id)
 

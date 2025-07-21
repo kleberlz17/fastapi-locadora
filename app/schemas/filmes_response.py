@@ -32,3 +32,6 @@ class FilmeResponse(BaseModel):
         ..., #3 pontos, obrigatoriedade
         description="Estoque do filme em número"
     )
+
+    class Config:
+        orm_mode = True
