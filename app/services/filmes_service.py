@@ -8,14 +8,14 @@ from app.models.filmes import Filmes
 from app.schemas.filmes_create import  FilmeCreate
 from app.schemas.filmes_update import FilmeUpdate
 from app.repositories.filmes_repository import (
-get_by_id,
-get_by_nome_ignore_case,
-get_by_data_lancamento,
-get_by_genero_contendo,
-get_by_diretor_contendo,
-get_by_estoque,
-save,
-delete,
+    get_by_id,
+    get_by_nome_ignore_case,
+    get_by_data_lancamento,
+    get_by_genero_contendo,
+    get_by_diretor_contendo,
+    get_by_estoque,
+    save,
+    delete, get_by_nome_contendo,
 )
 from app.validators.filmes_validator import FilmeValidator
 
@@ -42,7 +42,7 @@ class FilmeService:
         return filme
 
     def buscar_por_nome(self, nome: str) -> List[Filmes]:
-        return get_by_nome_ignore_case(self.db, nome)
+        return get_by_nome_contendo(self.db, nome)
 
     def buscar_por_data_lancamento(self, data: date) -> List[Filmes]:
         return get_by_data_lancamento(self.db, data)

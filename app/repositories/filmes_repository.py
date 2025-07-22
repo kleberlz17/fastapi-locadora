@@ -1,15 +1,16 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, load_only
 from app.models.filmes import Filmes
 from datetime import date
 
-def get_by_id(db: Session, id_filme: int):
-    return db.query(Filmes).filter(Filmes.id == id_filme).first() #first é equivalente ao optional(1 na lista)
+def get_by_id(db: Session, id_filme: int): #Não chamar o relacionamento com locação,
+    return db.query(Filmes).filter(Filmes.id_filme == id_filme).first()
 
 def get_by_nome_ignore_case(db: Session, nome: str):
     # ilike busca ignorando maiusculas e minusculas
     return db.query(Filmes).filter(Filmes.nome.ilike(nome)).first() #first é equivalente ao optional(1 na lista)
 
 def get_by_nome_contendo(db: Session, nome: str):
+    #ESSE BUSCA TODOS OS FILMES QUE CONTENHAM A PALAVRA BUSCADA
     # ilike busca ignorando maiusculas e minusculas
     return db.query(Filmes).filter(Filmes.nome.ilike(f"%{nome}%")).all() #retorna toda a lista
 

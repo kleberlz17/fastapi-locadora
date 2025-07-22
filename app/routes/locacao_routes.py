@@ -8,9 +8,9 @@ from app.schemas.locacao_update import LocacaoUpdate, RenovarLocacao, AluguelReq
 from app.schemas.locacao_response import LocacaoResponse
 from app.services.locacao_service import LocacaoService
 
-router = APIRouter(prefix="/locacao", tags=["Locação"])
+router = APIRouter()
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/salvar", status_code=status.HTTP_201_CREATED)
 def salvar_locacao(locacao_create: LocacaoCreate, db: Session = Depends(get_db)):
     service = LocacaoService(db)
     locacao = service.salvar(locacao_create)
