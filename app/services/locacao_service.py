@@ -17,17 +17,21 @@ class LocacaoService:
         self.validator = LocacaoValidator(db)
 
     def salvar(self, locacao_create: LocacaoCreate) -> Locacao:
-        cliente = cliente_repository.get_by_id(self.db, locacao_create.id)
+        print(f"id_cliente: {locacao_create.id_cliente}, id_filme: {locacao_create.id_filme}")
+        cliente = cliente_repository.get_by_id(self.db, locacao_create.id_cliente)
         if not cliente:
             raise HTTPException(status_code=404, detail="Cliente não encontrado.")
 
         filme = filmes_repository.get_by_id(self.db, locacao_create.id_filme)
+        print(f"Filme buscado: {filme}")
         if not filme:
             raise HTTPException(status_code=404, detail="Filme não encontrado.")
 
         locacao = Locacao(
             cliente = cliente,
             filme = filme,
+            id_cliente = cliente.id, #Se não expor vai ficar comparando com NONE e a duplicidade vai passar.
+            id_filme = filme.id_filme, #Se não expor vai ficar comparando com NONE e a duplicidade vai passar.
             data_locacao = locacao_create.data_locacao,
             data_devolucao = locacao_create.data_devolucao,
             devolvido = locacao_create.devolvido,
@@ -35,6 +39,9 @@ class LocacaoService:
         )
 
         self.validator.validar_tudo(locacao)
+        filme.estoque -= locacao.quantidade
+        filmes_repository.save(self.db, filme)
+
         return locacao_repository.save(self.db, locacao)
 
     def buscar_por_id(self, id_locacao: int) -> Locacao:
@@ -85,19 +92,22 @@ class LocacaoService:
         if quantidade <= 0:
             raise HTTPException(status_code=400, detail="Estoque insuficiente.")
 
-        filme.estoque -= quantidade
-        filmes_repository.save(self.db, filme)
-
-        locacao = Locacao(
+        locacao_temp = Locacao(
             cliente = cliente,
             filme = filme,
+            id_cliente = cliente.id, #Se não expor vai ficar comparando com NONE e a duplicidade vai passar.
+            id_filme = filme.id_filme, #Se não expor vai ficar comparando com NONE e a duplicidade vai passar.
             quantidade = quantidade,
             data_locacao = datetime.today().date(),
             data_devolucao = data_devolucao,
             devolvido = False
         )
+        self.validator.validar_tudo(locacao_temp)
 
-        return locacao_repository.save(self.db, locacao)
+        filme.estoque -= quantidade
+        filmes_repository.save(self.db, filme)
+
+        return locacao_repository.save(self.db, locacao_temp)
 
     def deletar(self, id_locacao: int):
         locacao = self.buscar_por_id(id_locacao)

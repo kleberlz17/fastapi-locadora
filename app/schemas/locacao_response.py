@@ -8,7 +8,7 @@ class LocacaoResponse(BaseModel):
         description="Identificador único da locação"
     )
 
-    id: int = Field(
+    id_cliente: int = Field(
         ..., #obrigatorio
         description="ID do cliente"
     )
@@ -37,3 +37,6 @@ class LocacaoResponse(BaseModel):
         ..., #obrigatorio
         description="Quantas unidades foram alugadas"
     )
+
+    class Config:
+        orm_mode = True ##SEM ISSO O RETORNO DO SQLALCHEMY NAO FUNCIONA!!!!

@@ -2,6 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from typing import List
 
+from app.repositories import filmes_repository
 from app.database import get_db
 from app.schemas.locacao_create import LocacaoCreate
 from app.schemas.locacao_update import LocacaoUpdate, RenovarLocacao, AluguelRequest, LocacaoOnlyId
@@ -40,7 +41,7 @@ def calcular_multar(idLocacao: int, db: Session = Depends(get_db)):
 def alugar_filme(dados: AluguelRequest, db: Session = Depends(get_db)):
     service = LocacaoService(db)
     return service.alugar_filme(
-        id_cliente=dados.id,
+        id_cliente=dados.id_cliente,
         id_filme=dados.id_filme,
         quantidade = dados.quantidade,
         data_devolucao=dados.data_devolucao
@@ -50,3 +51,4 @@ def alugar_filme(dados: AluguelRequest, db: Session = Depends(get_db)):
 def deletar_locacao(idLocacao: int, db: Session = Depends(get_db)):
     service = LocacaoService(db)
     service.deletar(idLocacao)
+

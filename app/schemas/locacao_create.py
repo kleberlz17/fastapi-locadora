@@ -3,7 +3,7 @@ from datetime import date
 
 class LocacaoCreate(BaseModel):
     ##UTILIZADO PARA CRIAR (POST)
-    id: int = Field( ##ID DO CLIENTE
+    id_cliente: int = Field( ##ID DO CLIENTE
         ..., #obrigatoriedade
         ge=1,
         le=999999,
