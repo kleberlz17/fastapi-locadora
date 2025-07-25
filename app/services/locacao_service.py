@@ -58,11 +58,19 @@ class LocacaoService:
 
     def buscar_por_cliente_id(self, cliente_id: int) -> List[Locacao]:
         logger.info(f"Buscando locações por cliente ID: {cliente_id}")
-        return locacao_repository.get_by_cliente_id(self.db, cliente_id)
+        locacao = locacao_repository.get_by_cliente_id(self.db, cliente_id)
+        if not locacao:
+            logger.warning(f"Cliente de ID {cliente_id} não possui locações.")
+            raise HTTPException(status_code=404, detail="Locações não encontradas.")
+        return locacao
 
     def buscar_por_filme_id(self, filme_id: int) -> List[Locacao]:
         logger.info(f"Buscando locações por filme ID: {filme_id}")
-        return locacao_repository.get_by_filme_id(self.db, filme_id)
+        locacao = locacao_repository.get_by_filme_id(self.db, filme_id)
+        if not locacao:
+            logger.warning(f"Filme de ID {filme_id} não possui locações.")
+            raise HTTPException(status_code=404, detail ="Locações não encontradas.")
+        return locacao
 
     def renovar_data_devolucao(self, id_locacao: int, nova_data: date) -> Locacao:
         if not nova_data:
