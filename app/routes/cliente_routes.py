@@ -35,6 +35,12 @@ def buscar_por_cpf(cpf: str, db: Session = Depends(get_db)):
     service = ClienteService(db)
     return service.buscar_por_cpf(cpf)
 
+@router.put("/{id}", response_model=ClienteResponse)
+#Esse é genérico, atualiza qualquer conjunto de campos enviados, sem precisar de endpoint pra cada campo.
+def atualizar_cliente(id: int, cliente_update: ClienteUpdate, db: Session = Depends(get_db)):
+    service = ClienteService(db)
+    return service.atualizar(id, cliente_update)
+
 @router.put("/{id}/novoTelefone", response_model=ClienteResponse)
 def alterar_telefone(id: int, novo_telefone: NovoTelefone, db: Session = Depends(get_db)):
     service = ClienteService(db)

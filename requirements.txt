@@ -3,3 +3,7 @@ uvicorn==0.22.0
 sqlalchemy==2.0.20
 psycopg2-binary==2.9.6
 pydantic==1.10.12
+
+# Testes
+pytest==7.4.4
+pytest-mock==3.12.0

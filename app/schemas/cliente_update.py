@@ -19,8 +19,8 @@ class ClienteUpdate(BaseModel):
         description="CPF com 11 dígitos numéricos"
     )
 
-    telefone: constr(min_length=8, max_length=15) = Field(
-        ...,
+    telefone: Optional[constr(min_length=8, max_length=15)] = Field(
+        None,
         description="Número de telefone")
 
     email: Optional[EmailStr] = Field(

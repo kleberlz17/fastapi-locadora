@@ -86,6 +86,7 @@ class ClienteService:
         return ClienteResponse.from_orm(cliente) #ClienteResponse define o formato da resposta, porém os dados vem da entidade Cliente.
 
     def atualizar(self, id: int, cliente_update: ClienteUpdate) -> ClienteResponse:
+        # Esse é genérico, atualiza qualquer conjunto de campos enviados, sem precisar de endpoint pra cada campo.
         logger.info(f"Atualizando cliente ID: {id}")
         cliente = get_by_id(self.db, id)
         if not cliente:
