@@ -17,7 +17,7 @@ def cliente_fake():
     cliente.endereco = "Rua Tests"
     return cliente
 
-def test_salvar_cliente_com_cpf(mocker):
+def test_salvar_cliente(mocker):
     db_mock = mocker.MagicMock()
     db_mock.add = mocker.MagicMock()
     db_mock.commit = mocker.MagicMock()
