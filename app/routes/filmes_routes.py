@@ -19,7 +19,7 @@ def salvar(filme_create: FilmeCreate, db: Session = Depends(get_db)):
     filme = service.salvar(filme_create)
     return {"id": filme.id_filme}
 
-@router.get("/id/{id_filme}", response_model=FilmeResponse)
+@router.get("/{id_filme}", response_model=FilmeResponse)
 def buscar_por_id(id_filme: int, db: Session = Depends(get_db)):
     service = FilmeService(db)
     return service.buscar_por_id(id_filme)
