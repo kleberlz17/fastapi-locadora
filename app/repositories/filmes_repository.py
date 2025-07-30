@@ -29,6 +29,13 @@ def get_by_estoque(db: Session, estoque: int):
     return db.query(Filmes).filter(Filmes.estoque == estoque).all() #retorna toda a lista
 
 def save(db: Session, filme: Filmes) -> Filmes:
+    ## Aqui é pra garantir que todas as locações associadas ao filme estão na sessão do SQLAlchemy,
+    ## e garantindo que os relacionamentos estão sendo salvos.
+    ## ##Se não colocar os ifs de reafirmação, vai ficar dando warning.
+    for locacao in filme.locacoes:
+        if locacao not in db:
+            db.add(locacao)
+
     db.add(filme)
     db.commit()
     db.refresh(filme)

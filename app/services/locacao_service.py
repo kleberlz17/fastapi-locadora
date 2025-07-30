@@ -42,7 +42,7 @@ class LocacaoService:
         )
 
         self.validator.validar_tudo(locacao)
-        filme.estoque -= locacao.quantidade
+        filme.estoque -= locacao.quantidade #Diminui a quantidade do estoque
         filmes_repository.save(self.db, filme)
 
         logger.info(f"Locação criada para cliente {cliente.id} do filme {filme.id_filme}")
@@ -129,7 +129,7 @@ class LocacaoService:
         )
 
         self.validator.validar_tudo(locacao_temp)
-        filme.estoque -= quantidade
+        filme.estoque -= quantidade #Diminui a quantidade do estoque
         filmes_repository.save(self.db, filme)
 
         logger.info(f"Locação realizada: cliente={cliente.id}, filme={filme.id_filme}, quantidade={quantidade}")

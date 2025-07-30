@@ -29,6 +29,14 @@ def get_by_quantidade(db: Session, quantidade: int):
     return db.query(Locacao).filter(Locacao.quantidade == quantidade).first() #optional
 
 def save(db: Session, locacao: Locacao):
+    ## Aqui é pra garantir que a locação está vinculada ao cliente e filme na memória,
+    ## pra manter a consistência do relacionamento antes de salvar no banco.
+    ##Se não colocar os ifs de reafirmação, vai ficar dando warning.
+    if locacao.cliente and locacao not in locacao.cliente.locacoes:
+        locacao.cliente.locacoes.append(locacao)
+    if locacao.filme and locacao not in locacao.filme.locacoes:
+        locacao.filme.locacoes.append(locacao)
+
     db.add(locacao)
     db.commit()
     db.refresh(locacao)
