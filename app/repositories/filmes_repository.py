@@ -31,7 +31,8 @@ def get_by_estoque(db: Session, estoque: int):
 def save(db: Session, filme: Filmes) -> Filmes:
     ## Aqui é pra garantir que todas as locações associadas ao filme estão na sessão do SQLAlchemy,
     ## e garantindo que os relacionamentos estão sendo salvos.
-    ## ##Se não colocar os ifs de reafirmação, vai ficar dando warning.
+    ## E poderia futuramente ter dados soltos pq a ligação não foi salva corretamente.
+    ## Se não colocar os ifs de reafirmação, vai ficar dando warning.
     for locacao in filme.locacoes:
         if locacao not in db:
             db.add(locacao)
