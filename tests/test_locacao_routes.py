@@ -1,3 +1,4 @@
+import logging
 import pytest
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
@@ -7,6 +8,10 @@ from datetime import date
 from app.main import app
 from app.models.cliente import Cliente
 from app.models.filmes import Filmes
+
+#Loggings pra acompanhar as respostas.
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
+logger = logging.getLogger(__name__)
 
 #Config banco de dados
 SQLALCHEMY_DATABASE_URL = "sqlite:///./test.db"
@@ -82,6 +87,7 @@ def setup_db():
 #Testes de integração routes locação
 def test_salvar_locacao():
     global LOCACAO_ID
+    logger.info("Iniciando teste: test_salvar_locacao")
     locacao = {
         "id_cliente": CLIENTE_ID,
         "id_filme": FILME_ID,
@@ -91,35 +97,46 @@ def test_salvar_locacao():
         "quantidade": 1
     }
     response = client.post("/locacao/salvar", json=locacao)
+    logger.info(f"Resposta: {response.status_code} - {response.json()}")
     assert response.status_code == 201
     LOCACAO_ID = response.json()["id"] #Pegando o ID real.
+    logger.info(f"Locação criada com ID {LOCACAO_ID}")
 
 def test_buscar_locacoes_cliente():
+    logger.info("Iniciando teste: test_buscar_locacoes_cliente")
     response = client.get(f"/locacao/{CLIENTE_ID}/locacoes")
+    logger.info(f"Resposta: {response.status_code} - {response.json()}")
     assert response.status_code == 200
     data = response.json()
     assert isinstance(data, list)
     assert data[0]["id_cliente"] == CLIENTE_ID
 
 def test_buscar_historico_filme():
+    logger.info("Iniciando teste: test_buscar_historico_filme")
     response = client.get(f"/locacao/{FILME_ID}/historico")
+    logger.info(f"Resposta: {response.status_code} - {response.json()}")
     assert response.status_code == 200
     data = response.json()
     assert len(data) > 0 # Confere se tem pelo menos 1 dado.
 
 def test_renovar_locacao():
+    logger.info("Iniciando teste: test_renovar_locacao")
     renovar = {"data_devolucao": "2025-08-10"}
     response = client.put(f"/locacao/{LOCACAO_ID}/renovarLocacao", json=renovar)
+    logger.info(f"Resposta: {response.status_code} - {response.json()}")
     assert response.status_code == 200
     data = response.json()
     assert data["data_devolucao"] == "2025-08-10"
 
 def test_calcular_multa():
+    logger.info("Iniciando teste: test_calcular_multa")
     response = client.post(f"/locacao/{LOCACAO_ID}/multa")
+    logger.info(f"Resposta: {response.status_code} - {response.json()}")
     assert response.status_code == 200
     assert isinstance(response.json(), float)
 
 def test_alugar_filme():
+    logger.info("Iniciando teste: test_alugar_filme")
     locacao = {
         "id_cliente": CLIENTE2_ID,
         "id_filme": FILME2_ID,
@@ -127,12 +144,15 @@ def test_alugar_filme():
         "data_devolucao": "2025-08-05"
     }
     response = client.post("/locacao/alugar", json=locacao)
+    logger.info(f"Resposta: {response.status_code} - {response.json()}")
     assert response.status_code == 200
     data = response.json()
     assert data["id_cliente"] == CLIENTE2_ID
     assert data["id_filme"] == FILME2_ID
 
 def test_deletar_locacao():
+    logger.info("Iniciando teste: test_deletar_locacao")
     response = client.delete(f"/locacao/{LOCACAO_ID}/deletar")
+    logger.info(f"Resposta DELETE: {response.status_code}")
     assert response.status_code == 204
 
