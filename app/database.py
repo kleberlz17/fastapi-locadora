@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base
 from sqlalchemy.orm import sessionmaker
 
 SQLALCHEMY_DATABASE_URL = os.getenv(
-    "DATABASE_URL",
+    "DATABASE_URL",  ##Se existir variavel com esse nome, usa  ela, se não, usa a local abaixo.
     "postgresql://user:password@localhost:5432/fastapi-locadora"
 )
 
