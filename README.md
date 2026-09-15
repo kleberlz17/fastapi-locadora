@@ -9,7 +9,6 @@ A aplicação está containerizada com Docker e hospedada na AWS, utilizando Ama
 A API está atualmente hospedada na AWS e pode ser acessada através da documentação interativa:
 
 - **Swagger UI:** http://18.234.141.156:8000/docs
-- **ReDoc:** http://18.234.141.156:8000/redoc
 
 > O endereço da aplicação pode ser alterado futuramente devido à utilização do IPv4 público da instância EC2.
 
@@ -63,12 +62,10 @@ O FastAPI gera automaticamente duas interfaces para visualização e teste dos e
 ### Ambiente hospedado
 
 - Swagger UI: http://18.234.141.156:8000/docs
-- ReDoc: http://18.234.141.156:8000/redoc
 
 ### Ambiente local
 
 - Swagger UI: http://localhost:8000/docs
-- ReDoc: http://localhost:8000/redoc
 
 ## 🚀 Observações
 
